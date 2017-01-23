@@ -39,7 +39,6 @@ print('Done evaluating model.')
 
 print('Time for prediction:')
 
-while(True):
-    start_time = time.time()
-    model.predict(img_train[0:1, :, :, :])
-    print("--- %s seconds ---" % (time.time() - start_time))
+start_time = time.time()
+model.predict(img_train[0:1, :, :, :])
+print("--- %s seconds ---" % (time.time() - start_time))
