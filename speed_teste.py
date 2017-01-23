@@ -34,7 +34,7 @@ model.load_weights(weights_file)
 
 print('Done loading model.')
 
-model.evaluate(img_train, steering_train)
+print(model.evaluate(img_train, steering_train))
 print('Done evaluating model.')
 
 print('Time for prediction:')
