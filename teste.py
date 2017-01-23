@@ -31,9 +31,7 @@ img_train = img_train/255. - 0.5
 
 
 model = Sequential()
-model.add(Convolution2D(4, 1, 1, border_mode='valid', input_shape=(32, 32, 3)))
-model.add(Activation('relu'))
-model.add(Convolution2D(8, 3, 3, border_mode='valid'))
+model.add(Convolution2D(8, 3, 3, border_mode='valid', input_shape=(32, 32, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Convolution2D(16, 3, 3, border_mode='valid'))
