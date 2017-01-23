@@ -13,7 +13,7 @@ import json
 import tensorflow as tf
 tf.python.control_flow_ops = tf
 
-pickle_file = 'train_data.pickle'
+pickle_file = 'train_data_norm_gauss.pickle'
 
 if isfile(pickle_file):
     with open(pickle_file, mode='rb') as f:
@@ -57,8 +57,8 @@ model.compile(loss='mean_squared_error', optimizer='adam')
 model.fit(img_train, steering_train, nb_epoch=20, validation_split=0.2)
 
 
-model.save_weights('teste.h5')
+model.save_weights('teste_norm.h5')
 
 data = model.to_json()
-with open('teste.json', 'w') as f:
+with open('teste_norm.json', 'w') as f:
     json.dump(data, f)
