@@ -11782,7 +11782,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>After analyzing the collected data, I noticed that, since the simulator was controlled with a keyboard, the steering data had some very discrete variations. To remedy this issue, I decided to apply a gaussian filter to the data to make it smoother. The results are shown below.</p>
+<p>After analyzing the collected data, I noticed that, since the simulator was controlled with a keyboard, the steering data had some very discrete variations. To remedy this issue, I decided to apply a gaussian filter to the data to make it smoother. The window size for the filter was set to 20 samples (i.e. approximately 2 seconds). The results are shown below.</p>
 
 </div>
 </div>
@@ -11796,11 +11796,9 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">isfile</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">basename</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
-<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">gaussian</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
@@ -21120,7 +21118,7 @@ jkaj0Wg0Go1Go3ko0caORqPRaDQajUajeSj5/xtBnhwRF/CNAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The network has to calculate a steering angle for every frame, which means it has to predict approximately 10 steering angles per second. Even at <em>30 mph</em> (the simulator's top speed), the distance traveled in a tenth of a second is significantly smaller then the full horizon shown in the frame samples above. With that in mind, the images were cropped to <em>40x320</em> (originally <em>160x320</em>), with an estimation of the distance that would be traveled in the next <em>0.1</em> second.</p>
+<p>The network has to calculate a steering angle for every frame, which means it has to predict approximately 10 steering angles per second. Even at 30 mph (the simulator's top speed), the distance traveled in a tenth of a second is significantly smaller then the full horizon shown in the frame samples above. With that in mind, the images were cropped to <em>40x320</em> (originally <em>160x320</em>), with an estimation of the distance that would be traveled in the next 0.1 second.</p>
 <p>The images were also resized to <em>32x32</em> frames, to reduce the number of parameters and to facilitate the usage of squared filters in the convnets involved in the end network.</p>
 
 </div>
@@ -21327,7 +21325,7 @@ jkaj0Wg0Go1Go3ko0caORqPRaDQajUajeSj5/xtBnhwRF/CNAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To train the model, a generator was used to augment and ballance the data. Three data augmentation strategies were used: flipping the image and corresponding steering angle's sign; gamma correction to simulate different brightness conditions; and adding gaussian noise to the images to simulate information loss (so the network doesn't learn to rely on a particular pixel).</p>
+<p>To train the model, a generator was used to augment and ballance the data. Three data augmentation strategies were used to prevent the model from overfitting: flipping the image and corresponding steering angle's sign; gamma correction to simulate different brightness conditions; and adding gaussian noise to the images to simulate information loss (so the network doesn't learn to rely on a particular pixel).</p>
 
 </div>
 </div>
@@ -21414,7 +21412,7 @@ jkaj0Wg0Go1Go3ko0caORqPRaDQajUajeSj5/xtBnhwRF/CNAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The model was trained to minimize a <em>MSE</em> loss function using an <em>Adam</em> optimizer with the default learning rate of <em>0.001</em>. The trainig lasted <em>10</em> epochs with <em>48,600</em> samples per epoch and a batch size of <em>1800</em> samples. These parameters were fine tuned under random tests.</p>
+<p>The model was trained to minimize a <em>MSE</em> loss function using an <em>Adam</em> optimizer with the default learning rate of 0.001. The trainig lasted 10 epochs with 48,600 samples per epoch and a batch size of 1800 samples. These parameters were fine tuned under random tests.</p>
 
 </div>
 </div>
@@ -21436,9 +21434,9 @@ jkaj0Wg0Go1Go3ko0caORqPRaDQajUajeSj5/xtBnhwRF/CNAAAAAElFTkSuQmCC
 
 
 <span class="c1">### Save model parameters</span>
-<span class="n">model</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span><span class="s1">&#39;teste_raw8.h5&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span><span class="s1">&#39;model.h5&#39;</span><span class="p">)</span>
 <span class="n">model_json</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;teste_raw8.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;model.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model_json</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 </pre></div>
 
@@ -21494,7 +21492,7 @@ Epoch 10/10
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The model was able to successfully complete several laps on the 1st track (where training data was recorded from). On the 2nd track, the model is able to drive through most of the curves, but it fails to complete the U-turn.</p>
+<p>The model was able to successfully complete several laps on the 1st track (where training data was recorded from). On the 2nd track, the model is able to drive through most of the curves, but it fails to complete the U-turns.</p>
 <p>For further improvements, data on the 2nd track should be collected and used during training to help with the generalization of the model. I also noted that the model still wiggles a little bit depending on the velocity of the car and the section of the track it is driving through. To correct this issue either better recovering data should be recorded or the data augmentation hyper parameters above need to be fine tuned.</p>
 
 </div>
