@@ -1,7 +1,8 @@
 .ipynb_checkpoints
 IMG
 *.pickle
-track1
+track*
 udacity_data
 fail
 *.zip
+old_models
